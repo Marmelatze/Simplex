@@ -1,0 +1,26 @@
+<table class="bordered-table">
+	<thead>
+		<tr>
+			<th colspan="2">Tab {{tableu.num}}</th>
+			{% for col in tableu.cols if (not col.isBase) %}
+				<th>{{col.name}}</th>
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+		{% for row in tableu.rows %}
+		<tr {% if row.isPivot and not row.isBase %} class="pivot" {% endif %}>
+			<th>
+				{% if row.isBase %}
+					Z
+				{% else %}
+					{{row.name}}
+				{% endif %}
+			</th>
+			{% for cell in row.getCells() %}
+				<td style="text-align: right"{% if cell.isPivot %} class="pivotCell"{% elseif cell.col.isPivot %} class="pivot"{% endif %}>{{"%1.3f"|format(cell.value)}}</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
